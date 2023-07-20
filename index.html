@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Scratch</title>
+    <style>
+        /* `*` 代表所有的標籤 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu {
+            /* 位置: 黏起來 */
+            position: sticky;
+            /* 黏在上面 */
+            top: 0;
+            /* 黏在左邊 */
+            left: 0;
+
+            /* 高度 */
+            height: 5vh;
+
+            /* 字體大小 (px是單位) */
+            font-size: 16px;
+            
+            /* 背景顏色 */
+            background-color: wheat;
+
+            /* 下方邊邊的線條設定 */
+            border-bottom: 1px gray solid;
+
+            /* 圖層的等級 數字越大越上面 可以蓋掉數字小的內容 */
+            z-index: 999;
+        }
+
+        .menu-items {
+            /* 展示的方式是 flex (要使用flex 需要一個容器) */
+            display: flex;
+
+            /* 排列的方向 默認設定是`row` 把所有內容橫向放在一起 */
+            /* column 容器裡面的物品 垂直排列 */
+            /* flex-direction: row; */
+
+            /* 水平對齊的方式 */
+            justify-content: space-evenly;
+
+            /* 垂直對齊的方式 */
+            align-items: center;
+
+            /* flex: 1; */
+            flex-wrap: nowrap;
+            overflow: hidden;
+
+            width: 75%;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            width: 100%;
+            text-align: center;
+            line-height: 5vh;
+        }
+
+        /* `:hover' 滑鼠放在上面 */
+        .menu-item:hover {
+            background-color: orange;
+        }
+
+        .nav-search {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 90%;
+            padding: 4px;
+        }
+
+        .nav-search:hover {
+            background-color: wheat;
+        }
+
+        .nav-search > * {
+            border: none;
+        }
+
+        .nav-search > button {
+            background-color: gray;
+            background-image: url(./image/nav-search-glass.png);
+            background-size: 12px 12px;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            width: 24px;
+            height: 24px;
+
+            cursor: pointer;
+
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        /* hover 滑鼠經過的時候 */
+        .nav-search > button:hover {
+            background-color: orange;
+        }
+
+        /* 滑鼠點擊的時候 */
+        .nav-search > button:active {
+            background-color: darkred;
+        }
+
+        .nav-search > input {
+            width: 100%;
+            height: 24px;
+
+            background-color: rgba(151, 125, 78, 0.492);
+
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .nav-search > input:focus {
+            /* outline 外面的線條 line 線條 out 外面 */
+            outline: none;
+        }
+
+        #container {
+            width: 100%;
+            margin: 0 auto;
+            /* margin-top: 5vh; */
+        }
+
+        #container > *{
+            width: 75%;
+
+            margin: 0 auto;
+
+            /* 
+            margin-top: 0;
+            margin-right: 0;
+            margin-bottom: 0;
+            margin-left: 0;
+
+                    上 右 下 左
+            margin: 0  0  0  0;
+
+                    垂直(上下)  水平(左右)   
+            margin:    0          auto;
+            */
+        }
+
+        #header {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            width: 100%;
+
+            /* 高度 */
+            height: 25vh;
+
+            background-color: lightpink;
+
+            /* 背景圖片 url 圖片位置 */
+            background-image: url(./image/background-cropped.svg);
+
+            /* 背景重複的方式 不要重複 */
+            background-repeat: no-repeat;
+            
+            /* 背景位置 右側 */
+            background-position: right;
+        }
+
+        #header-left {
+            padding-left: 1rem;
+
+            font-size: 2rem;
+            font-weight: bolder;
+
+            display: flex;
+            flex-direction: column;
+            /* align-items: center; */
+            justify-content: center;
+
+            z-index: 50;
+        }
+
+        #header-button {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        #header-button > a {
+            /* 呈現的方式 flexs */
+            display: flex;
+
+            /* 水平對齊 */
+            justify-content: center;
+
+            /* 垂直對齊 */
+            align-items: center;
+
+            /* 往右分開一點 */
+            margin-right: 8px;
+
+            /* text 文字 decoration 裝飾 none 沒有 */
+            text-decoration: none;
+
+            /* 文字的重量  bold 壯 */
+            font-weight: bold;
+
+            background-color: white;
+
+            /* 變胖一點 */
+            padding: .5rem;
+
+            /* border 邊邊 radius 角度 */
+            border-radius: 8px;
+        }
+
+        #header-right {
+            width: 50%;
+            height: 100%;
+            position: relative;
+        }
+
+        #header-video {
+            /* position 你什麼都沒告訴他的話 它會用 static 靜態位置 */
+            /* absolute
+                會去找上一層容器黏在它上面 (static以外的)
+                如果上一層容器是`position:static`, 會繼續往更上一層找
+            */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            z-index: 30
+        }
+
+        #header-hat {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        @media screen and (max-width: 800px) {
+            .nav-search {
+                display: none;
+            }
+
+            #header {
+                justify-content: center;
+                height: 30vh;
+            }
+
+            #header-left {
+                height: 50%;
+                scale: 0.8;
+            }
+
+            #header-button {
+                justify-content: space-evenly;
+            }
+
+            #header-right {
+                height: 50%;
+                scale: 0.8;
+
+            }
+
+            #header-video {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #header-hat {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .nav-search {
+                display: none;
+            }
+
+            #header {
+                justify-content: center;
+                height: 30vh;
+            }
+
+            #header-left {
+                height: 100%;
+            }
+
+            #header-button {
+                justify-content: space-between;
+            }
+
+            #header-right {
+                display: none;
+            }
+
+            #header-video {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #header-hat {
+                display: none;
+            }
+
+            #footer-lists {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #footer-lists > ul {
+                padding: 4px;
+            }
+        }
+
+        #content {
+            height: auto;
+            margin-top: 3.5rem;
+        }
+
+        .content-collection {
+            padding: .5rem;
+            margin-bottom: 1rem;
+        }
+
+        .collection-title {
+            color: white;
+            background-color: #CC0033;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+
+            border: .25rem solid darkred;
+            border-bottom: .1rem solid darkred;
+            font-weight: bold;
+            padding: .25rem 0;
+        }
+
+        .collection-title > p {
+            margin-left: 1rem;
+        }
+
+        .item-rows {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+
+            height: 100px;
+
+            overflow: hidden;
+
+            border: 2px  solid darkred;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .item-box {
+            text-align: center;
+        }
+
+        .collection-item {
+            width: 100px;
+            height: 50px;
+            background-color: greenyellow;
+            margin: 1px;
+            border-radius: 999px;
+        }
+
+        #footer {
+            background-color: skyblue;
+            padding: 1rem;
+            height: auto;
+            display: flex;
+            /* flex 的排列方向是 column(直的) */
+            flex-direction: column;
+            align-items: space-evenly;
+        }
+
+        #footer-lists{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        #footer-lists ul {
+            list-style-type: none;
+        }
+
+        .list-title {
+            text-align: center;
+        }
+
+        #lang-selector {
+            /* 寬度 */
+            width: 15vw;
+            padding: .75rem 1rem;
+            margin: 0 auto;
+            margin-top: 8px;
+            border-radius: 1rem;
+            border: 1px solid indigo;
+            background-color: rgba(160, 226, 251, 0.774);
+        }
+
+        .footer-p {
+            text-align: center;
+            margin-top: .5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 建立 導航菜單 (通常是用 `nav` 這個標籤)-->
+    <nav class="menu">
+            <div class="menu-items">
+                <div class="menu-item">SCRATCH</div>
+                <div class="menu-item">創造</div>
+                <div class="menu-item">探索</div>
+                <div class="menu-item">想法</div>
+                <div class="menu-item">關於</div>
+                <div class="menu-item nav-search">
+                    <button></button>
+                    <input type="text" placeholder="Search" />
+                </div>
+                <div class="menu-item">註冊</div>
+                <div class="menu-item">登入</div>
+                </div>
+        </div>
+    </nav>
+
+    <!-- Container 容器 -->
+    <div id="container">
+        <!-- 頭部 -->
+        <header id="header">
+            <!--
+                標籤
+                也是有不同的等級
+                block 方塊等級
+                inline 行內等級
+            -->
+
+            <!-- 左邊的區塊 -->
+            <div id="header-left">
+                <div>
+                    <p>創建故事、遊戲和動畫</p>
+                    <p>與世界各地的其他人分享</p>
+                </div>
+
+                <div id="header-button">
+                    <!--
+                        a 連結標籤
+                        href 點擊後前往的網址
+                    -->
+                    <a h    ref="#">
+                        <!--
+                            img 圖片標籤
+                            src 圖片的來源
+
+                        -->
+                        <img src="./image/create.svg" />
+                        <p>開始創作</p>
+                    </a>
+                    <a href="#">
+                        <img src="./image/join.svg" />
+                        <p>加入</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 右邊的區塊 -->
+            <div id="header-right">
+                <img id="header-video" src="./image/video-image.svg">
+                <img id="header-hat" src="./image/hat-block.svg">
+            </div>
+        </header>
+
+        <!-- 中間的內容 content-->
+        <div id="content">
+            <div class="content-collection">
+                <!-- 標題 -->
+                <div class="collection-title">
+                    <p>Featured Projects</p>
+                    <a href=""></a>
+                </div>
+
+                <!-- 盒子 -->
+                <div class="item-rows">
+                    <!-- 盒子裡的內容 -->
+                    <div class="item-box">
+                        <div class="collection-item"></div>
+                        <p>1</p>
+                    </div>
+                    <!-- 盒子裡的內容 -->
+                    <div class="item-box">
+                        <div class="collection-item"></div>
+                        <p>2</p>
+                    </div>
+                    <!-- 盒子裡的內容 -->
+                    <div class="item-box">
+                        <div class="collection-item"></div>
+                        <p>3</p>
+                    </div>
+                    <!-- 盒子裡的內容 -->
+                    <div class="item-box">
+                        <div class="collection-item"></div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-collection">
+                <div class="collection-title">
+                    <p>Featured Studios</p>
+                </div>
+                <div class="item-rows">
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>1</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>2</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>3</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-collection">
+                <div class="collection-title">
+                    <p>Projects Curated by XYZ-Gamez</p>
+                </div>
+                <div class="item-rows">
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>1</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>2</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>3</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-collection">
+                <div class="collection-title">
+                    <p>Scratch Design Studio - A Stroll through the Woods</p>
+                </div>
+                <div class="item-rows">
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>1</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>2</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>3</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-collection">
+                <div class="collection-title">
+                    <p>What the Community is Remixing</p>
+                </div>
+                <div class="item-rows">
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>1</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>2</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>3</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-collection">
+                <div class="collection-title">
+                    <p>What the Community is Loving</p>
+                </div>
+                <div class="item-rows">
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>1</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>2</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>3</p>
+                    </div>
+                    <div class="item-box">
+                        <div class="collection-item">                        </div>
+                        <p>4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <footer id="footer">
+            <!-- footer 裏面的清單, 列表 -->
+            <div id="footer-lists">
+                <!-- ol Order List 有順序的清單 -->
+                <!-- ul Unrder List 沒有順序的清單 -->
+                <div>
+                    <p class="list-title">About</p>
+                    <ul>
+                        <!-- li List-Item 清單的物品 -->
+                        <li>關於 Scratch</li>
+                        <li>我們的團隊</li>
+                        <li>贊助</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="list-title">About2</p>
+                    <ul>
+                        <li>關於 Scratch2</li>
+                        <li>我們的團隊2</li>
+                        <li>贊助2</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="list-title">About2</p>
+                    <ul>
+                        <li>關於 Scratch2</li>
+                        <li>我們的團隊2</li>
+                        <li>贊助2</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="list-title">About2</p>
+                    <ul>
+                        <li>關於 Scratch2</li>
+                        <li>我們的團隊2</li>
+                        <li>贊助2</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 選擇器 select -->
+            <select name="lang-select" id="lang-selector">
+                <!-- 選項 option -->
+                <option value="tranditional_chinese">繁體中文</option>
+                <option value="english">英文</option>
+                <option value="japanese">日文</option>
+            </select>
+
+            <!-- 段落 p paragraph -->
+            <div class="footer-p">
+                <p>感謝我們捐助者的支持，Scratch 可以免費使用。</p>
+            </div>
+
+            <div class="footer-p">
+                <p>我們感謝我們的創始合作夥伴：麻省理工學院、國家科學基金會、西格爾家族捐贈基金和樂高基金會。</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
