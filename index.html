@@ -132,9 +132,10 @@
         }
 
         #container {
+            position: relative;
             width: 100%;
+            height: calc(100% - 5vh);
             margin: 0 auto;
-            /* margin-top: 5vh; */
         }
 
         #container > *{
@@ -154,6 +155,26 @@
                     垂直(上下)  水平(左右)   
             margin:    0          auto;
             */
+        }
+
+        #to-top {
+            position: fixed;
+            right: 5%;
+            bottom: 5%;
+            transform: translate(50%, 50%);
+
+            width: 50px;
+            height: 50px;
+
+            cursor: pointer;
+
+            border-radius: 999px;
+
+            background-color: wheat;
+            background-image: url(./image/arrow-up-fill.svg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         #header {
@@ -338,7 +359,6 @@
         }
 
         #content {
-            height: auto;
             margin-top: 1rem;
         }
 
@@ -450,6 +470,10 @@
 
     <!-- Container 容器 -->
     <div id="container">
+
+        <!-- ToTop -->
+        <div id="to-top"></div>
+
         <!-- 頭部 -->
         <header id="header">
             <!--
@@ -493,6 +517,7 @@
                 <img id="header-hat" src="./image/hat-block.svg">
             </div>
         </header>
+
 
         <!-- 中間的內容 content-->
         <div id="content">
@@ -713,8 +738,14 @@
     </div>
 </body>
 <script>
-    const header = document.getElementById('header')
-    console.log(header);
-    header.addEventListener('click', () => alert('Hi'))
+    // 通過 id 尋找 回到最上方的按鈕
+    let btn_top = document.getElementById('to-top')
+
+    // 幫`回到最上方的按鈕`新增 點擊的事件
+    // 當它被點擊, 會讓畫面回到最上方
+    btn_top.addEventListener('click', function() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    })
 </script>
 </html>
