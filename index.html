@@ -384,7 +384,7 @@
         .collection-item {
             width: 100px;
             height: 50px;
-            background-color: greenyellow;
+            background-color: rgb(152, 210, 64);
             border-radius: 999px;
         }
 
@@ -428,9 +428,6 @@
             margin-top: .5rem;
         }
     </style>
-    <script>
-        // const 
-    </script>
 </head>
 <body>
     <!-- 建立 導航菜單 (通常是用 `nav` 這個標籤)-->
@@ -715,4 +712,9 @@
         </footer>
     </div>
 </body>
+<script>
+    const header = document.getElementById('header')
+    console.log(header);
+    header.addEventListener('click', () => alert('Hi'))
+</script>
 </html>
