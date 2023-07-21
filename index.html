@@ -161,8 +161,6 @@
             justify-content: space-between;
             align-items: center;
 
-            flex-wrap: wrap;
-
             width: 100%;
 
             /* 高度 */
@@ -255,12 +253,13 @@
             transform: translate(-50%, -50%);
         }
 
-        @media screen and (max-width: 800px) {
+        @media (max-width: 800px) {
             .nav-search {
                 display: none;
             }
 
             #header {
+                flex-direction: column;
                 justify-content: center;
                 height: 30vh;
             }
@@ -277,7 +276,6 @@
             #header-right {
                 height: 50%;
                 scale: 0.8;
-
             }
 
             #header-video {
@@ -288,6 +286,10 @@
 
             #header-hat {
                 display: none;
+            }
+
+            #content {
+                margin-top: 0rem;
             }
         }
 
@@ -329,14 +331,15 @@
                 align-items: center;
             }
 
-            #footer-lists > ul {
+            #footer-lists > div {
+                margin-bottom: .5rem;
                 padding: 4px;
             }
         }
 
         #content {
             height: auto;
-            margin-top: 3.5rem;
+            margin-top: 1rem;
         }
 
         .content-collection {
@@ -362,12 +365,11 @@
 
         .item-rows {
             display: flex;
-            justify-content: space-evenly;
             align-items: center;
 
             height: 100px;
 
-            overflow: hidden;
+            overflow-x: scroll;
 
             border: 2px  solid darkred;
             border-bottom-left-radius: 4px;
@@ -376,13 +378,13 @@
 
         .item-box {
             text-align: center;
+            margin: 0 .2rem;
         }
 
         .collection-item {
             width: 100px;
             height: 50px;
             background-color: greenyellow;
-            margin: 1px;
             border-radius: 999px;
         }
 
@@ -412,7 +414,7 @@
 
         #lang-selector {
             /* 寬度 */
-            width: 15vw;
+            width: 150px;
             padding: .75rem 1rem;
             margin: 0 auto;
             margin-top: 8px;
@@ -426,6 +428,9 @@
             margin-top: .5rem;
         }
     </style>
+    <script>
+        // const 
+    </script>
 </head>
 <body>
     <!-- 建立 導航菜單 (通常是用 `nav` 這個標籤)-->
@@ -469,7 +474,7 @@
                         a 連結標籤
                         href 點擊後前往的網址
                     -->
-                    <a h    ref="#">
+                    <a href="#">
                         <!--
                             img 圖片標籤
                             src 圖片的來源
